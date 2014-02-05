@@ -254,13 +254,40 @@ ESVIJI.game = (function () {
     if (viewportWidth != document.body.clientWidth || viewportHeight != document.body.clientHeight) {
       viewportWidth = document.body.clientWidth;
       viewportHeight = document.body.clientHeight;
-      if (viewportHeight / viewportWidth > ESVIJI.settings.board.height / ESVIJI.settings.board.width) {
-        // tall
+      if (viewportHeight / viewportWidth > 460 / 320) {
+        if ((viewportHeight / viewportWidth) >= (460 / 288)) {
+          $('html').attr('class', 'extra-tall');
+          $('#board')[0].setAttributeNS(null, 'viewBox', '0 0 288 460');
+          if ($('#play').length === 1) {
+            $('#play .title')[0].setAttributeNS(null, 'x', '228');
+            $('#play .pauseButton')[0].setAttributeNS(null, 'transform', 'translate(253, 5)');
+          } else {
+            $('#playPanel .title')[0].setAttributeNS(null, 'x', '228');
+            $('#playPanel .pauseButton')[0].setAttributeNS(null, 'transform', 'translate(253, 5)');
+          }
+          ESVIJI.settings.board.width = 288;
+          ESVIJI.settings.board.xMax = 9;
+          ESVIJI.settings.turn.posX = 9;
+        } else {
+          $('html').attr('class', 'tall');
+          $('#board')[0].setAttributeNS(null, 'viewBox', '0 0 320 460');
+          if ($('#play').length === 1) {
+            $('#play .title')[0].setAttributeNS(null, 'x', '250');
+            $('#play .pauseButton')[0].setAttributeNS(null, 'transform', 'translate(285, 5)');
+          } else {
+            $('#playPanel .title')[0].setAttributeNS(null, 'x', '250');
+            $('#playPanel .pauseButton')[0].setAttributeNS(null, 'transform', 'translate(285, 5)');
+          }
+          ESVIJI.settings.board.width = 320;
+          ESVIJI.settings.board.xMax = 10;
+          ESVIJI.settings.turn.posX = 10;
+        }
         boardWidth = viewportWidth;
         boardHeight = ESVIJI.settings.board.height / ESVIJI.settings.board.width * boardWidth;
         boardOffsetY = viewportHeight - boardHeight; // top empty area height
+
       } else {
-        // large
+        $('html').attr('class', 'wide');
         boardHeight = viewportHeight;
         boardWidth = ESVIJI.settings.board.width / ESVIJI.settings.board.height * boardHeight;
         boardOffsetY = 0;
